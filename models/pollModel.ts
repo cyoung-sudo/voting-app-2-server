@@ -1,6 +1,20 @@
-import mongoose from "mongoose";
+import { Document, Schema, Model, model } from "mongoose";
 
-const PollSchema = new mongoose.Schema({
+interface IPoll extends Document {
+  userId: Schema.Types.ObjectId;
+  title: string;
+  desc: string;
+  closed: boolean;
+  choices: [{desc: string, count: number}];
+  voted: Schema.Types.ObjectId;
+}
+
+const PollSchema = new Schema<IPoll>({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true
+  },
   title: {
     type: String,
     required: true,
@@ -34,9 +48,15 @@ const PollSchema = new mongoose.Schema({
         default: 0
       }
     }
+  ],
+  voted: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    }
   ]
 }, { timestamps: true });
 
-const pollModel = mongoose.model("Poll", PollSchema);
+const pollModel: Model<IPoll> = model("Poll", PollSchema);
 
 export default pollModel;
