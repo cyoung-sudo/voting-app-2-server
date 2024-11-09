@@ -47,4 +47,20 @@ pollRoutes.route("/")
   }
 });
 
+pollRoutes.route("/user/:userId")
+//----- Retrieve posts for given user
+.get((req, res) => {
+  Poll.find({
+    userId: req.params.userId
+  })
+  .then(docs => {
+    let revDocs = docs.reverse();
+    res.json({
+      success: true,
+      polls: revDocs
+    });
+  })
+  .catch(err => console.log(err));
+});
+
 export default pollRoutes;

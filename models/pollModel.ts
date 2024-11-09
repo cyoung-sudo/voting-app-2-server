@@ -6,7 +6,7 @@ interface IPoll extends Document {
   desc: string;
   closed: boolean;
   choices: [{desc: string, count: number}];
-  voted: Schema.Types.ObjectId;
+  voted: [Schema.Types.ObjectId];
 }
 
 const PollSchema = new Schema<IPoll>({

@@ -49,4 +49,24 @@ userRoutes.route("/")
   });
 });
 
+userRoutes.route("/:userId")
+//----- Retrieve user
+.get((req, res) => {
+  User.findById(req.params.userId)
+  .then(doc => {
+    if(doc) {
+      res.json({
+        success: true,
+        user: doc
+      });
+    } else {
+      res.json({
+        success: false,
+        message: "User not found"
+      });
+    }
+  })
+  .catch(err => console.log(err));
+});
+
 export default userRoutes;
