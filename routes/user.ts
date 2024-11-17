@@ -3,6 +3,7 @@ import express from "express";
 import bcrypt from "bcrypt";
 // Models
 import User from "../models/userModel.js";
+import Poll from "../models/pollModel.js";
 
 const userRoutes = express.Router();
 
@@ -47,6 +48,32 @@ userRoutes.route("/")
       });
     });
   });
+})
+//----- Delete user
+.delete((req, res) => {
+  // Check auth
+  if(req.user && req.user.id) {
+    // Delete user polls
+    Poll.deleteMany({
+      userId: req.user.id
+    })
+    .then(delCount => {
+      if(req.user && req.user.id) {
+        // Delete user
+        User.findByIdAndDelete(req.user.id)
+        .then(delDoc => {
+          res.json({ success: true });
+        })
+        .catch(err => console.log(err));
+      }
+    })
+    .catch(err => console.log(err));
+  } else {
+    res.json({
+      success: false,
+      message: "Invalid authentication"
+    });
+  }
 });
 
 userRoutes.route("/:userId")

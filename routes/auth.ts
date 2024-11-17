@@ -6,10 +6,17 @@ const authRoutes = express.Router();
 
 // Return authenticated user
 authRoutes.get("/", (req, res) => {
-  res.json({
-    success: true,
-    user: req.user
-  });
+  if(req.user) {
+    res.json({
+      success: true,
+      user: req.user
+    });
+  } else {
+    res.json({
+      success: false,
+      message: "User not authenticated"
+    });
+  }
 });
 
 // Login user

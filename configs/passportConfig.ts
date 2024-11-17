@@ -5,11 +5,12 @@ import LocalStrategy from "passport-local";
 import bcrypt from "bcrypt";
 // Models
 import User from "../models/userModel.js";
+import { Schema } from "mongoose";
 
 declare global {
   namespace Express {
     interface User {
-      id?: string
+      id?: Schema.Types.ObjectId;
     }
   }
 }
