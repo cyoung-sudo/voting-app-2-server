@@ -23,3 +23,7 @@ Runs the server on [http://localhost:5050](http://localhost:5050).
 - Node
 - Express
 - MongoDB Atlas
+
+## Notes
+
+- Add middleware to check authentication for certain routes
